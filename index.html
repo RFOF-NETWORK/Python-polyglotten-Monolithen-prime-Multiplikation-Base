@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFOF Network Terminal - Silent Blockchain</title>
+    <!-- PyScript für Python-Ausführung ohne lokale Installation auf dem Handy -->
+    <link rel="stylesheet" href="https://pyscript.net">
+    <script type="module" src="https://pyscript.net"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <div class="status-dot"></div>
+            <h1>RFOF-NETWORK // SYSTEM BASIS 42</h1>
+        </header>
+        
+        <main class="ledger-grid">
+            <!-- LOKALER LEDGER -->
+            <section class="ledger-box local">
+                <h2>LOKALER LEDGER (Handy-Speicher)</h2>
+                <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto-Blockchain <span class="badge">Aktiv</span></div>
+                <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System-Blockchain (PAW) <span class="badge">Persistent</span></div>
+                <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain <span class="badge animated">Silent Klon</span></div>
+            </section>
+
+            <!-- GLOBALER LEDGER -->
+            <section class="ledger-box global">
+                <h2>GLOBALER LEDGER (Roster-Zustand)</h2>
+                <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto (Genesis 50 BTC)</div>
+                <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System (Global SAW)</div>
+                <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (Fusioniert)</div>
+            </section>
+        </main>
+
+        <!-- OUTPUT DES LAUFENDEN RECHENPROZESSES -->
+        <div class="log-screen">
+            <div class="log-title">PROTOKOLL-DATENSTROM:</div>
+            <div id="output-log">Initialisiere dezentrale Zyklen...</div>
+        </div>
+    </div>
+
+    <!-- PYSCRIPT KONFIGURATION ZUM LADEN DER PYTHON-DATEIEN -->
+    <script type="py" src="app_silent.py" config='{"fetch": [{"files": ["net_krypto.py", "dev_system.py"]}]}'></script>
+</body>
+</html>

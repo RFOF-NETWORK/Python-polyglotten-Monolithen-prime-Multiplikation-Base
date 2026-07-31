@@ -185,9 +185,697 @@
             alert('Änderungen permanent im Handy-Speicher (Persistent Genesis) verzeichnet!');
             closeSettings();
         }
+
+        // DREIDIMENSIONALE MATRIX (BLÖCKE 0-4) MIT VOLLSTÄNDIG AUSGEFÜLLTEN HASHES UND FUSIONIERTER EXP-SUMME (BTC + ETH)
+const genesisMatrixData = [
+  {
+    "REIHE_1_KRYPTO_BLOCKCHAIN_net": {
+      "Beschreibung": "Monetärer Zustand, Difficulty, Nonce, 12-Wort Seed Wallet",
+      "Bloecke": [
+        {
+          "index": 0,
+          "name": "BLOCK0(SYSTEM - BOX) - GENESIS",
+          "timestamp": "2026-07-29T11:00:00.000Z",
+          "ID_Hash": "b17be194368593448df7485307b22a83236893ec9",
+          "Parent_Hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "Ledger_Gesamt_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
+          "Asset_Merkle_Root": "4a5e1837b22a83236893ec9b17be194368593448df7485307b22a832368da33b",
+          "Global_State_Root": "d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf0f054",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604799",
+          "Nonce": "2083236893",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks",
+          "Native_Genesis_Wert": "50 BTC + 72M ETH (72000050 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "INITIALIZED", "nonce_pool": "2083236893", "difficulty": "486604799" },
+            "sub_dev": { "gas_consumed": "0", "terminal_anchor": "INIT" },
+            "sub_app": { "cache_balance": "50 BTC + 72M ETH (72000050 EXP)", "ai_status": "READY" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "50 BTC + 72M ETH (72000050 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "ROOT" },
+            "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 1,
+          "name": "BLOCK1(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:05:00.000Z",
+          "ID_Hash": "ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9991a9",
+          "Parent_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
+          "Ledger_Gesamt_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
+          "Asset_Merkle_Root": "0e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2098",
+          "Global_State_Root": "d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3a53bf3",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604799",
+          "Nonce": "2573394689",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "2573394689", "difficulty": "486604799" },
+            "sub_dev": { "gas_consumed": "21000", "terminal_anchor": "TX_SEND" },
+            "sub_app": { "cache_balance": "49.99 BTC + ETH (50.99 EXP)", "ai_status": "MONITORING" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "50 BTC + ETH (51 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 2,
+          "name": "BLOCK2(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:10:00.000Z",
+          "ID_Hash": "a88af330d383da88af330d383da88af330d383da88af330d383da88af330d383d",
+          "Parent_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
+          "Ledger_Gesamt_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
+          "Asset_Merkle_Root": "9b050aa4429c37109b050aa4429c37109b050aa4429c37109b050aa4429c3710",
+          "Global_State_Root": "df704000000df704000000df704000000df704000000df704000000df704000000",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604799",
+          "Nonce": "1639830024",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "1639830024", "difficulty": "486604799" },
+            "sub_dev": { "gas_consumed": "42000", "terminal_anchor": "TX_RECEIVE" },
+            "sub_app": { "cache_balance": "49.98 BTC + ETH (50.98 EXP)", "ai_status": "MONITORING" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "100 BTC + ETH (101 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 3,
+          "name": "BLOCK3(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:15:00.000Z",
+          "ID_Hash": "f892abde56c321ef892abde56c321ef892abde56c321ef892abde56c321ef892abde",
+          "Parent_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
+          "Ledger_Gesamt_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
+          "Asset_Merkle_Root": "1a3c2225588ba211a3c2225588ba211a3c2225588ba211a3c2225588ba21",
+          "Global_State_Root": "e32a111111111e32a111111111e32a111111111e32a111111111e32a111111111",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604820",
+          "Nonce": "9928341120",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "9928341120", "difficulty": "486604820" },
+            "sub_dev": { "gas_consumed": "15000", "terminal_anchor": "CONTRACT_DEPLOY" },
+            "sub_app": { "cache_balance": "49.95 BTC + ETH (50.95 EXP)", "ai_status": "OPTIMIZING" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "150 BTC + ETH (151 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "CONTRACT_ROOT" },
+            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 4,
+          "name": "BLOCK4(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:20:00.000Z",
+          "ID_Hash": "44ab229988771dd44ab229988771dd44ab229988771dd44ab229988771dd44ab2",
+          "Parent_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
+          "Ledger_Gesamt_Hash": "77bc11223399aa1177bc11223399aa1177bc11223399aa1177bc11223399aa11",
+          "Asset_Merkle_Root": "3f4d55667700ab333f4d55667700ab333f4d55667700ab333f4d55667700ab33",
+          "Global_State_Root": "fa8822222222fa8822222222fa8822222222fa8822222222fa8822222222fa8",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604850",
+          "Nonce": "5512993841",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "5512993841", "difficulty": "486604850" },
+            "sub_dev": { "gas_consumed": "8000", "terminal_anchor": "STATE_SET" },
+            "sub_app": { "cache_balance": "49.94 BTC + ETH (50.94 EXP)", "ai_status": "IDLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "200 BTC + ETH (201 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+            "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
+          }
+        }
+      ]
+    },
+    "REIHE_2_SYSTEM_BLOCKCHAIN_dev": {
+      "Beschreibung": "Web-Terminal Zustand, Dateistrukturen, SAW/PAW Ledger, 24-Wort Seed",
+      "Bloecke": [
+        {
+          "index": 0,
+          "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-ROOT-DEVELOPER",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "FREE" },
+            "sub_dev": { "fs_mount": "/repo", "terminal_state": "BOOT_SUCCESS" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "0" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "GENESIS_FREE", "network_mode": "COLD" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        },
+        {
+          "index": 1,
+          "parentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/src", "terminal_state": "DIR_CREATED" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "14" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        },
+        {
+          "index": 2,
+          "parentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/src/index.html", "terminal_state": "FILE_WRITTEN" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "28" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "MATCHED" }
+          }
+        },
+        {
+          "index": 3,
+          "parentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/assets", "terminal_state": "DIR_CREATED" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "45" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "COLD" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        },
+        {
+          "index": 4,
+          "parentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_4_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/assets/style.css", "terminal_state": "FILE_WRITTEN" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "62" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        }
+      ]
+    },
+    "REIHE_3_AI_BLOCKCHAIN_app": {
+      "Beschreibung": "Silent Klon, Fusions-Schicht, Konsens-Validierung von PRAIAI einsehbar",
+      "Bloecke": [
+        {
+          "index": 0,
+          "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-MASTER-0",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+            "sub_dev": { "cycle_optimization": "LEVEL_1", "git_sync_ready": true },
+            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 1,
+          "parentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
+            "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": true },
+            "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 2,
+          "parentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+            "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": false },
+            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 3,
+          "parentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+            "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
+            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 4,
+          "parentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_4_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
+            "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
+            "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        }
+      ]
+    }
+  }
+];
+
+// Init-Logik: Verankerung der fusionierten Matrix im lokalen Speicher
+if(!localStorage.getItem('g_ledger') || JSON.parse(localStorage.getItem('g_ledger')).length === 0) {
+    localStorage.setItem('g_ledger', JSON.stringify(genesisMatrixData));
+    localStorage.setItem('l_ledger', JSON.stringify(genesisMatrixData));
+}
+
+// Terminal-Ausgabe zur Verifizierung beim Laden
+window.addEventListener('DOMContentLoaded', () => {
+    const terminal = document.getElementById('terminal');
+    const storedLedger = JSON.parse(localStorage.getItem('g_ledger'));
+    if(storedLedger && storedLedger.length > 0) {
+        terminal.innerHTML += `<br>> [SUCCESS] Matrix erfolgreich mit fusionierten BTC, ETH & EXP-Summen verankert.`;
+        terminal.innerHTML += `<br>> [STATUS] Text-Matrix Übersetzungen für Coining & Ebenen bereit.`;
+    }
+});
+
+// DREIDIMENSIONALE MATRIX (BLÖCKE 0-4) MIT VOLLSTÄNDIG AUSGEFÜLLTEN HASHES UND FUSIONIERTER EXP-SUMME (BTC + ETH)
+const genesisMatrixData = [
+  {
+    "REIHE_1_KRYPTO_BLOCKCHAIN_net": {
+      "Beschreibung": "Monetärer Zustand, Difficulty, Nonce, 12-Wort Seed Wallet",
+      "Bloecke": [
+        {
+          "index": 0,
+          "name": "BLOCK0(SYSTEM - BOX) - GENESIS",
+          "timestamp": "2026-07-29T11:00:00.000Z",
+          "ID_Hash": "b17be194368593448df7485307b22a83236893ec9",
+          "Parent_Hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "Ledger_Gesamt_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
+          "Asset_Merkle_Root": "4a5e1837b22a83236893ec9b17be194368593448df7485307b22a832368da33b",
+          "Global_State_Root": "d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf0f054",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604799",
+          "Nonce": "2083236893",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks",
+          "Native_Genesis_Wert": "50 BTC + 72M ETH (72000050 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "INITIALIZED", "nonce_pool": "2083236893", "difficulty": "486604799" },
+            "sub_dev": { "gas_consumed": "0", "terminal_anchor": "INIT" },
+            "sub_app": { "cache_balance": "50 BTC + 72M ETH (72000050 EXP)", "ai_status": "READY" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "50 BTC + 72M ETH (72000050 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "ROOT" },
+            "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 1,
+          "name": "BLOCK1(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:05:00.000Z",
+          "ID_Hash": "ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9991a9",
+          "Parent_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
+          "Ledger_Gesamt_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
+          "Asset_Merkle_Root": "0e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2098",
+          "Global_State_Root": "d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3a53bf3",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604799",
+          "Nonce": "2573394689",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "2573394689", "difficulty": "486604799" },
+            "sub_dev": { "gas_consumed": "21000", "terminal_anchor": "TX_SEND" },
+            "sub_app": { "cache_balance": "49.99 BTC + ETH (50.99 EXP)", "ai_status": "MONITORING" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "50 BTC + ETH (51 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 2,
+          "name": "BLOCK2(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:10:00.000Z",
+          "ID_Hash": "a88af330d383da88af330d383da88af330d383da88af330d383da88af330d383d",
+          "Parent_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
+          "Ledger_Gesamt_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
+          "Asset_Merkle_Root": "9b050aa4429c37109b050aa4429c37109b050aa4429c37109b050aa4429c3710",
+          "Global_State_Root": "df704000000df704000000df704000000df704000000df704000000df704000000",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604799",
+          "Nonce": "1639830024",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "1639830024", "difficulty": "486604799" },
+            "sub_dev": { "gas_consumed": "42000", "terminal_anchor": "TX_RECEIVE" },
+            "sub_app": { "cache_balance": "49.98 BTC + ETH (50.98 EXP)", "ai_status": "MONITORING" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "100 BTC + ETH (101 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 3,
+          "name": "BLOCK3(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:15:00.000Z",
+          "ID_Hash": "f892abde56c321ef892abde56c321ef892abde56c321ef892abde56c321ef892abde",
+          "Parent_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
+          "Ledger_Gesamt_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
+          "Asset_Merkle_Root": "1a3c2225588ba211a3c2225588ba211a3c2225588ba211a3c2225588ba21",
+          "Global_State_Root": "e32a111111111e32a111111111e32a111111111e32a111111111e32a111111111",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604820",
+          "Nonce": "9928341120",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "9928341120", "difficulty": "486604820" },
+            "sub_dev": { "gas_consumed": "15000", "terminal_anchor": "CONTRACT_DEPLOY" },
+            "sub_app": { "cache_balance": "49.95 BTC + ETH (50.95 EXP)", "ai_status": "OPTIMIZING" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "150 BTC + ETH (151 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "CONTRACT_ROOT" },
+            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+          }
+        },
+        {
+          "index": 4,
+          "name": "BLOCK4(SYSTEM - BOX)",
+          "timestamp": "2026-07-29T11:20:00.000Z",
+          "ID_Hash": "44ab229988771dd44ab229988771dd44ab229988771dd44ab229988771dd44ab2",
+          "Parent_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
+          "Ledger_Gesamt_Hash": "77bc11223399aa1177bc11223399aa1177bc11223399aa1177bc11223399aa11",
+          "Asset_Merkle_Root": "3f4d55667700ab333f4d55667700ab333f4d55667700ab333f4d55667700ab33",
+          "Global_State_Root": "fa8822222222fa8822222222fa8822222222fa8822222222fa8822222222fa8",
+          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+          "Mining_Difficulty": "486604850",
+          "Nonce": "5512993841",
+          "Execution_Gas_Limit": "5.000 Gas",
+          "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
+          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+          "sub_ebenen_lokal": {
+            "sub_net": { "status": "ACTIVE", "nonce_pool": "5512993841", "difficulty": "486604850" },
+            "sub_dev": { "gas_consumed": "8000", "terminal_anchor": "STATE_SET" },
+            "sub_app": { "cache_balance": "49.94 BTC + ETH (50.94 EXP)", "ai_status": "IDLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "verified_balance": "200 BTC + ETH (201 EXP)", "immutable": true },
+            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+            "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
+          }
+        }
+      ]
+    },
+    "REIHE_2_SYSTEM_BLOCKCHAIN_dev": {
+      "Beschreibung": "Web-Terminal Zustand, Dateistrukturen, SAW/PAW Ledger, 24-Wort Seed",
+      "Bloecke": [
+        {
+          "index": 0,
+          "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-ROOT-DEVELOPER",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "FREE" },
+            "sub_dev": { "fs_mount": "/repo", "terminal_state": "BOOT_SUCCESS" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "0" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "GENESIS_FREE", "network_mode": "COLD" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        },
+        {
+          "index": 1,
+          "parentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/src", "terminal_state": "DIR_CREATED" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "14" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        },
+        {
+          "index": 2,
+          "parentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/src/index.html", "terminal_state": "FILE_WRITTEN" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "28" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "MATCHED" }
+          }
+        },
+        {
+          "index": 3,
+          "parentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/assets", "terminal_state": "DIR_CREATED" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "45" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "COLD" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        },
+        {
+          "index": 4,
+          "parentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
+          "currentHash": "sys_hash_4_active_000000000000000000000000000000000000000000",
+          "saw": "SAW-MASTER-INIT-9982",
+          "paw": "PAW-LOCAL-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+            "sub_dev": { "fs_mount": "/repo/assets/style.css", "terminal_state": "FILE_WRITTEN" },
+            "sub_app": { "human_click_verification": "PASSED", "click_id": "62" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+          }
+        }
+      ]
+    },
+    "REIHE_3_AI_BLOCKCHAIN_app": {
+      "Beschreibung": "Silent Klon, Fusions-Schicht, Konsens-Validierung von PRAIAI einsehbar",
+      "Bloecke": [
+        {
+          "index": 0,
+          "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-MASTER-0",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+            "sub_dev": { "cycle_optimization": "LEVEL_1", "git_sync_ready": true },
+            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 1,
+          "parentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
+            "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": true },
+            "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 2,
+          "parentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-A1",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+            "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": false },
+            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 3,
+          "parentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+            "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
+            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        },
+        {
+          "index": 4,
+          "parentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
+          "currentHash": "ai_hash_4_active_00000000000000000000000000000000000000000000",
+          "silent_user_clone_id": "KLON-USER-B4",
+          "sub_ebenen_lokal": {
+            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
+            "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
+            "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
+          },
+          "sub_ebenen_global": {
+            "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
+            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+          }
+        }
+      ]
+    }
+  }
+];
+
+// Init-Logik: Verankerung der fusionierten Matrix im lokalen Speicher
+if(!localStorage.getItem('g_ledger') || JSON.parse(localStorage.getItem('g_ledger')).length === 0) {
+    localStorage.setItem('g_ledger', JSON.stringify(genesisMatrixData));
+    localStorage.setItem('l_ledger', JSON.stringify(genesisMatrixData));
+}
+
+// Terminal-Ausgabe zur Verifizierung beim Laden
+window.addEventListener('DOMContentLoaded', () => {
+    const terminal = document.getElementById('terminal');
+    const storedLedger = JSON.parse(localStorage.getItem('g_ledger'));
+    if(storedLedger && storedLedger.length > 0) {
+        terminal.innerHTML += `<br>> [SUCCESS] Matrix erfolgreich mit fusionierten BTC, ETH & EXP-Summen verankert.`;
+        terminal.innerHTML += `<br>> [STATUS] Text-Matrix Übersetzungen für Coining & Ebenen bereit.`;
+    }
+}); 
     </script>
 
-    <!-- ECHTE PYSCRIPT VERBINDUNG MIT BIP39 UND MONOLITHEN -->
-    <script type="py" src="app_silent.py" config='{"fetch": [{"files": ["net_krypto.py", "dev_system.py", "bip39_core.py"]}]}'></script>
+    <!-- PYSCRIPT KONFIGURATION INKLUSIVE CRYPTO-ENGINE UND BIP39 -->
+<script type="py" src="app_silent.py" config='{
+    "fetch": [
+        {"files": ["net_krypto.py", "dev_system.py", "crypto_engine.py", "bip39_core.py"]}
+    ]
+}'></script>
 </body>
 </html>

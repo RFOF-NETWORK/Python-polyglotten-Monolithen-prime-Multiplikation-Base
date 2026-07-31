@@ -8,39 +8,184 @@
     <link rel="stylesheet" href="https://pyscript.net">
     <script type="module" src="https://pyscript.net"></script>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Zusätzliche UI-Steuerung für Login & Settings direkt in HTML integriert */
+        .auth-screen, .settings-screen { display: none; }
+        .auth-screen.active, .settings-screen.active, .terminal-main.active { display: block; }
+        .top-nav { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8rem; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .nav-btn { background: #222; color: #00ff66; border: 1px solid #00ff66; padding: 3px 8px; cursor: pointer; border-radius: 3px; }
+        .input-group { margin-bottom: 10px; }
+        .input-group label { display: block; font-size: 0.75rem; color: #00bfff; margin-bottom: 3px; }
+        .input-group input { width: 100%; background: #000; border: 1px solid #444; color: #00ff66; padding: 8px; font-family: monospace; border-radius: 3px; }
+    </style>
 </head>
 <body>
 
     <div class="terminal-container">
-        <header class="terminal-header">
-            <div class="status-dot"></div>
-            <h1>RFOF-NETWORK // SYSTEM BASIS 42</h1>
-        </header>
         
-        <main class="ledger-grid">
-            <!-- LOKALER LEDGER -->
-            <section class="ledger-box local">
-                <h2>LOKALER LEDGER (Handy-Speicher)</h2>
-                <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto-Blockchain (SAW)<span class="badge">Aktiv</span></div>
-                <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System-Blockchain (PAW) <span class="badge">Persistent</span></div>
-                <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (AAW)<span class="badge animated">Silent Klon</span></div>
-            </section>
-
-            <!-- GLOBALER LEDGER -->
-            <section class="ledger-box global">
-                <h2>GLOBALER LEDGER (Roster-Zustand)</h2>
-                <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto (Genesis PAW)</div>
-                <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System (Global SAW)</div>
-                <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (Fusioniert AAW)</div>
-            </section>
-        </main>
-
-        <!-- OUTPUT DES LAUFENDEN RECHENPROZESSES -->
-        <div class="log-screen">
-            <div class="log-title">PROTOKOLL-DATENSTROM:</div>
-            <div id="output-log">Initialisiere dezentrale Zyklen...</div>
+        <!-- ================= 1. LOGIN ANSICHT ================= -->
+        <div id="loginView" class="auth-screen active">
+            <header class="terminal-header">
+                <div class="status-dot"></div>
+                <h1>RFOF-NETWORK // AUTHENTIFIZIERUNG</h1>
+            </header>
+            <div style="padding: 15px 0;">
+                <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px;">Geben Sie Ihre Zugangsdaten ein, um den Genesis-Zustand und den automatischen Silent-Scan zu starten.</p>
+                <div class="input-group">
+                    <label>BENUTZERNAME / SAW:</label>
+                    <input type="text" id="userInput" placeholder="Dein Benutzername...">
+                </div>
+                <div class="input-group">
+                    <label>PASSWORT / PAW:</label>
+                    <input type="password" id="passInput" placeholder="Dein Passwort...">
+                </div>
+                <button class="nav-btn" style="width: 100%; margin-top: 10px; padding: 10px; background: #00ff66; color: #000; font-weight: bold;" onclick="performLogin()">LOGIN & SILENT SCAN STARTEN</button>
+            </div>
         </div>
+
+        <!-- ================= 2. HAUPT-TERMINAL & DASHBOARD ================= -->
+        <div id="mainView" class="terminal-main">
+            <div class="top-nav">
+                <span id="userDisplay" style="color: #ffcc00;">User: Admin</span>
+                <div>
+                    <button class="nav-btn" onclick="openSettings()">Settings</button>
+                    <button class="nav-btn" onclick="performLogout()" style="border-color: #ff4444; color: #ff4444;">Logout</button>
+                </div>
+            </div>
+
+            <header class="terminal-header">
+                <div class="status-dot"></div>
+                <h1 id="logoExplorerTitle">RFOF-NETWORK // SYSTEM BASIS 42</h1>
+            </header>
+            
+            <main class="ledger-grid">
+                <!-- LOKALER LEDGER -->
+                <section class="ledger-box local">
+                    <h2>LOKALER LEDGER (Handy-Speicher)</h2>
+                    <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto-Blockchain (SAW)<span class="badge">Aktiv</span></div>
+                    <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System-Blockchain (PAW) <span class="badge">Persistent</span></div>
+                    <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (AAW)<span class="badge animated">Silent Klon</span></div>
+                </section>
+
+                <!-- GLOBALER LEDGER -->
+                <section class="ledger-box global">
+                    <h2>GLOBALER LEDGER (Roster-Zustand)</h2>
+                    <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto (Genesis PAW)</div>
+                    <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System (Global SAW)</div>
+                    <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (Fusioniert AAW)</div>
+                </section>
+            </main>
+
+            <!-- OUTPUT DES LAUFENDEN RECHENPROZESSES -->
+            <div class="log-screen">
+                <div class="log-title">PROTOKOLL-DATENSTROM (AUTOMATISCHER SILENT SCAN):</div>
+                <div id="output-log">Warte auf Authentifizierung...</div>
+            </div>
+        </div>
+
+        <!-- ================= 3. SETTINGS ANSICHT ================= -->
+        <div id="settingsView" class="settings-screen">
+            <header class="terminal-header">
+                <div class="status-dot"></div>
+                <h1>SETTINGS // LOGO EXPLORER & PERSISTENZ</h1>
+            </header>
+            <div style="padding: 15px 0;">
+                <div class="input-group">
+                    <label>BENUTZERNAME ÄNDERN:</label>
+                    <input type="text" id="setUserName" placeholder="Neuer Benutzername...">
+                </div>
+                <div class="input-group">
+                    <label>PASSWORT / PAW ÄNDERN:</label>
+                    <input type="password" id="setUserPass" placeholder="Neues Passwort...">
+                </div>
+                <div class="input-group">
+                    <label>LOGO EXPLORER TITEL (UI-ANPASSUNG):</label>
+                    <input type="text" id="setLogoTitle" placeholder="z.B. RFOF-NETWORK // SECURE CORE">
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="nav-btn" style="flex: 1; background: #00ff66; color: #000; font-weight: bold;" onclick="saveSettings()">FÜR IMMER SPEICHERN</button>
+                    <button class="nav-btn" style="flex: 1;" onclick="closeSettings()">Zurück</button>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <!-- PERSISTENZ & AUTH LOGIK (LÄUFT IM BROWSER / HANDY-SPEICHER) -->
+    <script>
+        // Prüfen beim Laden, ob bereits persistente Daten im localStorage existieren (Genesis Garantiert)
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('rfof_user');
+            const savedLogo = localStorage.getItem('rfof_logo');
+            
+            if (savedLogo) {
+                document.getElementById('logoExplorerTitle').innerText = savedLogo;
+            }
+
+            // Wenn bereits eingeloggt, direkt ins Hauptterminal springen und Scan starten
+            if (localStorage.getItem('rfof_logged_in') === 'true') {
+                document.getElementById('loginView').classList.remove('active');
+                document.getElementById('mainView').classList.add('active');
+                if(savedUser) document.getElementById('userDisplay').innerText = "User: " + savedUser;
+            }
+        });
+
+        function performLogin() {
+            const u = document.getElementById('userInput').value.trim();
+            const p = document.getElementById('passInput').value.trim();
+            
+            if(u) {
+                localStorage.setItem('rfof_user', u);
+                if(p) localStorage.setItem('rfof_pass', p);
+            }
+            localStorage.setItem('rfof_logged_in', 'true');
+
+            document.getElementById('loginView').classList.remove('active');
+            document.getElementById('mainView').classList.add('active');
+            
+            const activeUser = localStorage.getItem('rfof_user') || 'Admin';
+            document.getElementById('userDisplay').innerText = "User: " + activeUser;
+        }
+
+        function performLogout() {
+            localStorage.removeItem('rfof_logged_in');
+            document.getElementById('mainView').classList.remove('active');
+            document.getElementById('loginView').classList.add('active');
+        }
+
+        function openSettings() {
+            document.getElementById('mainView').classList.remove('active');
+            document.getElementById('settingsView').classList.add('active');
+            
+            document.getElementById('setUserName').value = localStorage.getItem('rfof_user') || '';
+            document.getElementById('setUserPass').value = localStorage.getItem('rfof_pass') || '';
+            document.getElementById('setLogoTitle').value = localStorage.getItem('rfof_logo') || 'RFOF-NETWORK // SYSTEM BASIS 42';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsView').classList.remove('active');
+            document.getElementById('mainView').classList.add('active');
+        }
+
+        function saveSettings() {
+            const newU = document.getElementById('setUserName').value.trim();
+            const newP = document.getElementById('setUserPass').value.trim();
+            const newL = document.getElementById('setLogoTitle').value.trim();
+
+            if(newU) {
+                localStorage.setItem('rfof_user', newU);
+                document.getElementById('userDisplay').innerText = "User: " + newU;
+            }
+            if(newP) localStorage.setItem('rfof_pass', newP);
+            if(newL) {
+                localStorage.setItem('rfof_logo', newL);
+                document.getElementById('logoExplorerTitle').innerText = newL;
+            }
+
+            alert('Änderungen permanent im Handy-Speicher (Persistent Genesis) verzeichnet!');
+            closeSettings();
+        }
+    </script>
 
     <!-- PYSCRIPT KONFIGURATION ZUM LADEN DER PYTHON-DATEIEN -->
     <script type="py" src="app_silent.py" config='{"fetch": [{"files": ["net_krypto.py", "dev_system.py"]}]}'></script>

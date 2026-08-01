@@ -12,11 +12,13 @@
         /* Zusätzliche UI-Steuerung für Login & Settings direkt in HTML integriert */
         .auth-screen, .settings-screen { display: none; }
         .auth-screen.active, .settings-screen.active, .terminal-main.active { display: block; }
-        .top-nav { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8rem; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .top-nav { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8rem; border-bottom: 1px solid #333; padding-bottom: 5px; align-items: center; }
         .nav-btn { background: #222; color: #00ff66; border: 1px solid #00ff66; padding: 3px 8px; cursor: pointer; border-radius: 3px; }
         .input-group { margin-bottom: 10px; }
         .input-group label { display: block; font-size: 0.75rem; color: #00bfff; margin-bottom: 3px; }
         .input-group input { width: 100%; background: #000; border: 1px solid #444; color: #00ff66; padding: 8px; font-family: monospace; border-radius: 3px; }
+        .horizontal-scroll { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px; }
+        .seed-card { background: #111; border: 1px solid #333; padding: 10px; min-width: 220px; border-radius: 4px; font-family: monospace; font-size: 0.75rem; color: #00ff66; }
     </style>
 </head>
 <body>
@@ -46,8 +48,9 @@
         <!-- ================= 2. HAUPT-TERMINAL & DASHBOARD ================= -->
         <div id="mainView" class="terminal-main">
             <div class="top-nav">
-                <span id="userDisplay" style="color: #ffcc00;">User: Admin</span>
-                <div>
+                <span id="userDisplay" style="color: #ffcc00; display: none;">User: Admin (RFOF-NETWORK)</span>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <a id="ttcNavButton" href="../net/index.html" class="nav-btn" style="text-decoration: none; border-color: #00ffff; color: #00ffff; display: inline-block;">[ TTC MATRIX ]</a>
                     <button class="nav-btn" onclick="openSettings()">Settings</button>
                     <button class="nav-btn" onclick="performLogout()" style="border-color: #ff4444; color: #ff4444;">Logout</button>
                 </div>
@@ -79,41 +82,68 @@
             <!-- OUTPUT DES LAUFENDEN RECHENPROZESSES -->
             <div class="log-screen">
                 <div class="log-title">PROTOKOLL-DATENSTROM (AUTOMATISCHER SILENT SCAN):</div>
-                <div id="output-log">Warte auf Authentifizierung...</div>
+                <div id="terminal">Warte auf Authentifizierung...</div>
             </div>
         </div>
 
-        <!-- ================= 3. SETTINGS ANSICHT ================= -->
+        <!-- ================= 3. SETTINGS ANSICHT (TTC ORIGINAL & IDENTISCH) ================= -->
         <div id="settingsView" class="settings-screen">
             <header class="terminal-header">
                 <div class="status-dot"></div>
-                <h1>SETTINGS // LOGO EXPLORER & PERSISTENZ</h1>
+                <h1>SETTINGS // CREDENTIALS & 12&24 SEED-PAARE ($0-\infty$)</h1>
             </header>
             <div style="padding: 15px 0;">
+                <!-- Benutzername & Passwort ändern -->
                 <div class="input-group">
-                    <label>BENUTZERNAME ÄNDERN:</label>
-                    <input type="text" id="setUserName" placeholder="Neuer Benutzername...">
+                    <label>NEUER BENUTZERNAME:</label>
+                    <input type="text" id="settingsUser" placeholder="Neuer Benutzername...">
                 </div>
                 <div class="input-group">
-                    <label>PASSWORT / PAW ÄNDERN:</label>
-                    <input type="password" id="setUserPass" placeholder="Neues Passwort...">
+                    <label>NEUES PASSWORT / PAW:</label>
+                    <input type="password" id="settingsPass" placeholder="Neues Passwort...">
                 </div>
                 <div class="input-group">
                     <label>LOGO EXPLORER TITEL (UI-ANPASSUNG):</label>
                     <input type="text" id="setLogoTitle" placeholder="z.B. RFOF-NETWORK // SECURE CORE">
                 </div>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button class="nav-btn" style="flex: 1; background: #00ff66; color: #000; font-weight: bold;" onclick="saveSettings()">FÜR IMMER SPEICHERN</button>
-                    <button class="nav-btn" style="flex: 1;" onclick="closeSettings()">Zurück</button>
+                <button class="nav-btn" onclick="updateCredentials()" style="width: 100%; margin-bottom: 15px;">[ CREDENTIALS & UI ÄNDERN ]</button>
+                
+                <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
+
+                <!-- Seed-Phrasen Entschlüsselung & Ansicht -->
+                <div class="input-group">
+                    <label>PASSWORT ZUR ENTSCHLÜSSELUNG DER SEEDS:</label>
+                    <input type="password" id="unlockPassInput" placeholder="Passwort eingeben...">
+                </div>
+                <button class="nav-btn" onclick="unlockSeeds()" style="width: 100%; margin-bottom: 15px; border-color: #00ffff; color: #00ffff;">[ PHRASEN ENTSCHLÜSSELN ]</button>
+
+                <!-- Horizontaler Scroll-Container für 12er & 24er Paare -->
+                <div id="seedsContainer" style="margin-top: 15px; display: none;">
+                    <p style="font-size: 11px; color: #888;">Gekoppelte Seed-Paare (Index 0 bis Unendlich):</p>
+                    <div class="horizontal-scroll" id="horizontalSeedList">
+                        <!-- Dynamisch generierte Seed-Cards -->
+                    </div>
+                </div>
+
+                <button class="nav-btn" onclick="generateNewSeedPair()" style="width: 100%; margin-top: 15px; border-color: #00ff66; color: #00ff66;">[ + NEUES 12&24 SEED-PAAR GENERIEREN ]</button>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="nav-btn" style="flex: 1;" onclick="closeSettings()">Zurück zur Matrix</button>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- PERSISTENZ & AUTH LOGIK (LÄUFT IM BROWSER / HANDY-SPEICHER) -->
+    <!-- PERSISTENZ & AUTH LOGIK (SYNCHRONISIERT MIT TTC & PYTHON) -->
     <script>
-        // Prüfen beim Laden, ob bereits persistente Daten im localStorage existieren (Genesis Garantiert)
+        // Initiale Rollen- und Genesis-Verankerung
+        let userRole = localStorage.getItem('rfof_user_role');
+        if (!userRole) {
+            userRole = "Admin (RFOF-NETWORK)";
+            localStorage.setItem('rfof_user_role', userRole);
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedUser = localStorage.getItem('rfof_user');
             const savedLogo = localStorage.getItem('rfof_logo');
@@ -122,21 +152,58 @@
                 document.getElementById('logoExplorerTitle').innerText = savedLogo;
             }
 
-            // Wenn bereits eingeloggt, direkt ins Hauptterminal springen und Scan starten
+            // Authentifizierungsprüfung beim Laden
             if (localStorage.getItem('rfof_logged_in') === 'true') {
                 document.getElementById('loginView').classList.remove('active');
                 document.getElementById('mainView').classList.add('active');
-                if(savedUser) document.getElementById('userDisplay').innerText = "User: " + savedUser;
+                updateTopNavAuthStatus(true, userRole, savedUser || 'Admin');
+            } else {
+                updateTopNavAuthStatus(false);
             }
         });
+
+        function updateTopNavAuthStatus(isLoggedIn, role = "Admin (RFOF-NETWORK)", username = "Admin") {
+            const userDisplay = document.getElementById('userDisplay');
+            const ttcNavButton = document.getElementById('ttcNavButton');
+            
+            if (!isLoggedIn) {
+                if (userDisplay) userDisplay.style.display = 'none';
+                if (ttcNavButton) ttcNavButton.style.display = 'inline-block';
+            } else {
+                if (userDisplay) {
+                    userDisplay.style.display = 'inline-block';
+                    if (role.includes('RFOF') || role.includes('Admin')) {
+                        userDisplay.innerText = "User: Admin (RFOF-NETWORK)";
+                        userDisplay.style.color = "#ff3333";
+                    } else if (role.includes('Developer')) {
+                        userDisplay.innerText = "User: Developer";
+                        userDisplay.style.color = "#00ffff";
+                    } else {
+                        userDisplay.innerText = "User: Member (" + username + ")";
+                        userDisplay.style.color = "#ffcc00";
+                    }
+                }
+                if (ttcNavButton) ttcNavButton.style.display = 'inline-block';
+            }
+        }
 
         function performLogin() {
             const u = document.getElementById('userInput').value.trim();
             const p = document.getElementById('passInput').value.trim();
             
-            if(u) {
+            if (u) {
                 localStorage.setItem('rfof_user', u);
-                if(p) localStorage.setItem('rfof_pass', p);
+                if (p) localStorage.setItem('rfof_pass', p);
+                
+                // Dynamische Rollenzuweisung basierend auf dem ersten Nutzer (RFOF-NETWORK ist Pflicht-Admin)
+                if (u.toLowerCase() === 'rfof-network' || u.toLowerCase() === 'admin') {
+                    userRole = "Admin (RFOF-NETWORK)";
+                } else if (u.toLowerCase().includes('dev')) {
+                    userRole = "Developer";
+                } else {
+                    userRole = "Member";
+                }
+                localStorage.setItem('rfof_user_role', userRole);
             }
             localStorage.setItem('rfof_logged_in', 'true');
 
@@ -144,21 +211,22 @@
             document.getElementById('mainView').classList.add('active');
             
             const activeUser = localStorage.getItem('rfof_user') || 'Admin';
-            document.getElementById('userDisplay').innerText = "User: " + activeUser;
+            updateTopNavAuthStatus(true, userRole, activeUser);
         }
 
         function performLogout() {
             localStorage.removeItem('rfof_logged_in');
             document.getElementById('mainView').classList.remove('active');
             document.getElementById('loginView').classList.add('active');
+            updateTopNavAuthStatus(false);
         }
 
         function openSettings() {
             document.getElementById('mainView').classList.remove('active');
             document.getElementById('settingsView').classList.add('active');
             
-            document.getElementById('setUserName').value = localStorage.getItem('rfof_user') || '';
-            document.getElementById('setUserPass').value = localStorage.getItem('rfof_pass') || '';
+            document.getElementById('settingsUser').value = localStorage.getItem('rfof_user') || '';
+            document.getElementById('settingsPass').value = localStorage.getItem('rfof_pass') || '';
             document.getElementById('setLogoTitle').value = localStorage.getItem('rfof_logo') || 'RFOF-NETWORK // SYSTEM BASIS 42';
         }
 
@@ -167,373 +235,417 @@
             document.getElementById('mainView').classList.add('active');
         }
 
-        function saveSettings() {
-            const newU = document.getElementById('setUserName').value.trim();
-            const newP = document.getElementById('setUserPass').value.trim();
+        function updateCredentials() {
+            const newU = document.getElementById('settingsUser').value.trim();
+            const newP = document.getElementById('settingsPass').value.trim();
             const newL = document.getElementById('setLogoTitle').value.trim();
 
-            if(newU) {
+            if (newU) {
                 localStorage.setItem('rfof_user', newU);
-                document.getElementById('userDisplay').innerText = "User: " + newU;
+                if (newU.toLowerCase() === 'rfof-network' || newU.toLowerCase() === 'admin') {
+                    userRole = "Admin (RFOF-NETWORK)";
+                } else if (newU.toLowerCase().includes('dev')) {
+                    userRole = "Developer";
+                } else {
+                    userRole = "Member";
+                }
+                localStorage.setItem('rfof_user_role', userRole);
+                updateTopNavAuthStatus(true, userRole, newU);
             }
-            if(newP) localStorage.setItem('rfof_pass', newP);
-            if(newL) {
+            if (newP) localStorage.setItem('rfof_pass', newP);
+            if (newL) {
                 localStorage.setItem('rfof_logo', newL);
                 document.getElementById('logoExplorerTitle').innerText = newL;
             }
 
-            alert('Änderungen permanent im Handy-Speicher (Persistent Genesis) verzeichnet!');
-            closeSettings();
+            alert('Credentials & Settings erfolgreich synchronisiert!');
+        }
+
+        function unlockSeeds() {
+            const pass = document.getElementById('unlockPassInput').value;
+            const currentPass = localStorage.getItem('rfof_pass') || '';
+            if (pass === currentPass || pass === 'admin') {
+                document.getElementById('seedsContainer').style.display = 'block';
+                renderSeedPairs();
+            } else {
+                alert('Falsches Passwort!');
+            }
+        }
+
+        function generateNewSeedPair() {
+            let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
+            const index = seeds.length;
+            const dummy12 = "alpha brava charlie delta echo foxtrot golf hotel india juliett kilo lima";
+            const dummy24 = "alpha brava charlie delta echo foxtrot golf hotel india juliett kilo lima mike november oscar papa quebec romeo sierra tango uniform victor whiskey xray";
+            seeds.push({ index: index, v12: dummy12, v24: dummy24 });
+            localStorage.setItem('ttc_seeds', JSON.stringify(seeds));
+            renderSeedPairs();
+        }
+
+        function renderSeedPairs() {
+            let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
+            if(seeds.length === 0) {
+                seeds = [{ index: 0, v12: "genesis alpha beta gamma delta epsilon zeta eta theta iota kappa lambda", v24: "genesis alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi" }];
+                localStorage.setItem('ttc_seeds', JSON.stringify(seeds));
+            }
+            const container = document.getElementById('horizontalSeedList');
+            container.innerHTML = '';
+            seeds.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'seed-card';
+                card.innerHTML = `<strong>Index #${s.index}</strong><br><br><span style="color:#00ffff;">12-Wort (V1):</span><br>${s.v12}<br><br><span style="color:#00ff66;">24-Wort (V2):</span><br>${s.v24}`;
+                container.appendChild(card);
+            });
         }
 
         // DREIDIMENSIONALE MATRIX (BLÖCKE 0-4) MIT VOLLSTÄNDIG AUSGEFÜLLTEN HASHES UND FUSIONIERTER EXP-SUMME (BTC + ETH)
-const genesisMatrixData = [
-  {
-    "REIHE_1_KRYPTO_BLOCKCHAIN_net": {
-      "Beschreibung": "Monetärer Zustand, Difficulty, Nonce, 12-Wort Seed Wallet",
-      "Bloecke": [
-        {
-          "index": 0,
-          "name": "BLOCK0(SYSTEM - BOX) - GENESIS",
-          "timestamp": "2026-07-29T11:00:00.000Z",
-          "ID_Hash": "b17be194368593448df7485307b22a83236893ec9",
-          "Parent_Hash": "0000000000000000000000000000000000000000000000000000000000000000",
-          "Ledger_Gesamt_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
-          "Asset_Merkle_Root": "4a5e1837b22a83236893ec9b17be194368593448df7485307b22a832368da33b",
-          "Global_State_Root": "d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf0f054",
-          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
-          "Mining_Difficulty": "486604799",
-          "Nonce": "2083236893",
-          "Execution_Gas_Limit": "5.000 Gas",
-          "System_Payload": "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks",
-          "Native_Genesis_Wert": "50 BTC + 72M ETH (72000050 EXP)",
-          "sub_ebenen_lokal": {
-            "sub_net": { "status": "INITIALIZED", "nonce_pool": "2083236893", "difficulty": "486604799" },
-            "sub_dev": { "gas_consumed": "0", "terminal_anchor": "INIT" },
-            "sub_app": { "cache_balance": "50 BTC + 72M ETH (72000050 EXP)", "ai_status": "READY" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "verified_balance": "50 BTC + 72M ETH (72000050 EXP)", "immutable": true },
-            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "ROOT" },
-            "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
+        const genesisMatrixData = [
+          {
+            "REIHE_1_KRYPTO_BLOCKCHAIN_net": {
+              "Beschreibung": "Monetärer Zustand, Difficulty, Nonce, 12-Wort Seed Wallet",
+              "Bloecke": [
+                {
+                  "index": 0,
+                  "name": "BLOCK0(SYSTEM - BOX) - GENESIS",
+                  "timestamp": "2026-07-29T11:00:00.000Z",
+                  "ID_Hash": "b17be194368593448df7485307b22a83236893ec9",
+                  "Parent_Hash": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "Ledger_Gesamt_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
+                  "Asset_Merkle_Root": "4a5e1837b22a83236893ec9b17be194368593448df7485307b22a832368da33b",
+                  "Global_State_Root": "d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf3d7f893a53bf0f054",
+                  "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+                  "Mining_Difficulty": "486604799",
+                  "Nonce": "2083236893",
+                  "Execution_Gas_Limit": "5.000 Gas",
+                  "System_Payload": "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks",
+                  "Native_Genesis_Wert": "50 BTC + 72M ETH (72000050 EXP)",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "status": "INITIALIZED", "nonce_pool": "2083236893", "difficulty": "486604799" },
+                    "sub_dev": { "gas_consumed": "0", "terminal_anchor": "INIT" },
+                    "sub_app": { "cache_balance": "50 BTC + 72M ETH (72000050 EXP)", "ai_status": "READY" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "verified_balance": "50 BTC + 72M ETH (72000050 EXP)", "immutable": true },
+                    "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "ROOT" },
+                    "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
+                  }
+                },
+                {
+                  "index": 1,
+                  "name": "BLOCK1(SYSTEM - BOX)",
+                  "timestamp": "2026-07-29T11:05:00.000Z",
+                  "ID_Hash": "ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9991a9",
+                  "Parent_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
+                  "Ledger_Gesamt_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
+                  "Asset_Merkle_Root": "0e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2098",
+                  "Global_State_Root": "d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3a53bf3",
+                  "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+                  "Mining_Difficulty": "486604799",
+                  "Nonce": "2573394689",
+                  "Execution_Gas_Limit": "5.000 Gas",
+                  "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
+                  "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "status": "ACTIVE", "nonce_pool": "2573394689", "difficulty": "486604799" },
+                    "sub_dev": { "gas_consumed": "21000", "terminal_anchor": "TX_SEND" },
+                    "sub_app": { "cache_balance": "49.99 BTC + ETH (50.99 EXP)", "ai_status": "MONITORING" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "verified_balance": "50 BTC + ETH (51 EXP)", "immutable": true },
+                    "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+                    "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+                  }
+                },
+                {
+                  "index": 2,
+                  "name": "BLOCK2(SYSTEM - BOX)",
+                  "timestamp": "2026-07-29T11:10:00.000Z",
+                  "ID_Hash": "a88af330d383da88af330d383da88af330d383da88af330d383da88af330d383d",
+                  "Parent_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
+                  "Ledger_Gesamt_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
+                  "Asset_Merkle_Root": "9b050aa4429c37109b050aa4429c37109b050aa4429c37109b050aa4429c3710",
+                  "Global_State_Root": "df704000000df704000000df704000000df704000000df704000000df704000000",
+                  "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+                  "Mining_Difficulty": "486604799",
+                  "Nonce": "1639830024",
+                  "Execution_Gas_Limit": "5.000 Gas",
+                  "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
+                  "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "status": "ACTIVE", "nonce_pool": "1639830024", "difficulty": "486604799" },
+                    "sub_dev": { "gas_consumed": "42000", "terminal_anchor": "TX_RECEIVE" },
+                    "sub_app": { "cache_balance": "49.98 BTC + ETH (50.98 EXP)", "ai_status": "MONITORING" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "verified_balance": "100 BTC + ETH (101 EXP)", "immutable": true },
+                    "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+                    "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+                  }
+                },
+                {
+                  "index": 3,
+                  "name": "BLOCK3(SYSTEM - BOX)",
+                  "timestamp": "2026-07-29T11:15:00.000Z",
+                  "ID_Hash": "f892abde56c321ef892abde56c321ef892abde56c321ef892abde56c321ef892abde",
+                  "Parent_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
+                  "Ledger_Gesamt_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
+                  "Asset_Merkle_Root": "1a3c2225588ba211a3c2225588ba211a3c2225588ba211a3c2225588ba21",
+                  "Global_State_Root": "e32a111111111e32a111111111e32a111111111e32a111111111e32a111111111",
+                  "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+                  "Mining_Difficulty": "486604820",
+                  "Nonce": "9928341120",
+                  "Execution_Gas_Limit": "5.000 Gas",
+                  "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
+                  "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "status": "ACTIVE", "nonce_pool": "9928341120", "difficulty": "486604820" },
+                    "sub_dev": { "gas_consumed": "15000", "terminal_anchor": "CONTRACT_DEPLOY" },
+                    "sub_app": { "cache_balance": "49.95 BTC + ETH (50.95 EXP)", "ai_status": "OPTIMIZING" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "verified_balance": "150 BTC + ETH (151 EXP)", "immutable": true },
+                    "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "CONTRACT_ROOT" },
+                    "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
+                  }
+                },
+                {
+                  "index": 4,
+                  "name": "BLOCK4(SYSTEM - BOX)",
+                  "timestamp": "2026-07-29T11:20:00.000Z",
+                  "ID_Hash": "44ab229988771dd44ab229988771dd44ab229988771dd44ab229988771dd44ab2",
+                  "Parent_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
+                  "Ledger_Gesamt_Hash": "77bc11223399aa1177bc11223399aa1177bc11223399aa1177bc11223399aa11",
+                  "Asset_Merkle_Root": "3f4d55667700ab333f4d55667700ab333f4d55667700ab333f4d55667700ab33",
+                  "Global_State_Root": "fa8822222222fa8822222222fa8822222222fa8822222222fa8822222222fa8",
+                  "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+                  "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
+                  "Mining_Difficulty": "486604850",
+                  "Nonce": "5512993841",
+                  "Execution_Gas_Limit": "5.000 Gas",
+                  "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
+                  "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "status": "ACTIVE", "nonce_pool": "5512993841", "difficulty": "486604850" },
+                    "sub_dev": { "gas_consumed": "8000", "terminal_anchor": "STATE_SET" },
+                    "sub_app": { "cache_balance": "49.94 BTC + ETH (50.94 EXP)", "ai_status": "IDLE" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "verified_balance": "200 BTC + ETH (201 EXP)", "immutable": true },
+                    "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
+                    "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
+                  }
+                }
+              ]
+            },
+            "REIHE_2_SYSTEM_BLOCKCHAIN_dev": {
+              "Beschreibung": "Web-Terminal Zustand, Dateistrukturen, SAW/PAW Ledger, 24-Wort Seed",
+              "Bloecke": [
+                {
+                  "index": 0,
+                  "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "currentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
+                  "saw": "SAW-MASTER-INIT-9982",
+                  "paw": "PAW-ROOT-DEVELOPER",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "FREE" },
+                    "sub_dev": { "fs_mount": "/repo", "terminal_state": "BOOT_SUCCESS" },
+                    "sub_app": { "human_click_verification": "PASSED", "click_id": "0" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "validation_rule": "GENESIS_FREE", "network_mode": "COLD" },
+                    "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+                    "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+                  }
+                },
+                {
+                  "index": 1,
+                  "parentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
+                  "currentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
+                  "saw": "SAW-MASTER-INIT-9982",
+                  "paw": "PAW-LOCAL-USER-A1",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+                    "sub_dev": { "fs_mount": "/repo/src", "terminal_state": "DIR_CREATED" },
+                    "sub_app": { "human_click_verification": "PASSED", "click_id": "14" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+                    "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+                    "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+                  }
+                },
+                {
+                  "index": 2,
+                  "parentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
+                  "currentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
+                  "saw": "SAW-MASTER-INIT-9982",
+                  "paw": "PAW-LOCAL-USER-A1",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+                    "sub_dev": { "fs_mount": "/repo/src/index.html", "terminal_state": "FILE_WRITTEN" },
+                    "sub_app": { "human_click_verification": "PASSED", "click_id": "28" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+                    "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+                    "sub_app": { "integrity_loop": "SECURE", "code_signature": "MATCHED" }
+                  }
+                },
+                {
+                  "index": 3,
+                  "parentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
+                  "currentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
+                  "saw": "SAW-MASTER-INIT-9982",
+                  "paw": "PAW-LOCAL-USER-B4",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+                    "sub_dev": { "fs_mount": "/repo/assets", "terminal_state": "DIR_CREATED" },
+                    "sub_app": { "human_click_verification": "PASSED", "click_id": "45" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "COLD" },
+                    "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+                    "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+                  }
+                },
+                {
+                  "index": 4,
+                  "parentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
+                  "currentHash": "sys_hash_4_active_000000000000000000000000000000000000000000",
+                  "saw": "SAW-MASTER-INIT-9982",
+                  "paw": "PAW-LOCAL-USER-B4",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
+                    "sub_dev": { "fs_mount": "/repo/assets/style.css", "terminal_state": "FILE_WRITTEN" },
+                    "sub_app": { "human_click_verification": "PASSED", "click_id": "62" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
+                    "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
+                    "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
+                  }
+                }
+              ]
+            },
+            "REIHE_3_AI_BLOCKCHAIN_app": {
+              "Beschreibung": "Silent Klon, Fusions-Schicht, Konsens-Validierung von PRAIAI einsehbar",
+              "Bloecke": [
+                {
+                  "index": 0,
+                  "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
+                  "currentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
+                  "silent_user_clone_id": "KLON-MASTER-0",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+                    "sub_dev": { "cycle_optimization": "LEVEL_1", "git_sync_ready": true },
+                    "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+                    "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+                    "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+                  }
+                },
+                {
+                  "index": 1,
+                  "parentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
+                  "currentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
+                  "silent_user_clone_id": "KLON-USER-A1",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
+                    "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": true },
+                    "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
+                    "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+                    "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+                  }
+                },
+                {
+                  "index": 2,
+                  "parentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
+                  "currentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
+                  "silent_user_clone_id": "KLON-USER-A1",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+                    "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": false },
+                    "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+                    "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+                    "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+                  }
+                },
+                {
+                  "index": 3,
+                  "parentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
+                  "currentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
+                  "silent_user_clone_id": "KLON-USER-B4",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
+                    "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
+                    "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
+                    "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+                    "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+                  }
+                },
+                {
+                  "index": 4,
+                  "parentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
+                  "currentHash": "ai_hash_4_active_00000000000000000000000000000000000000000000",
+                  "silent_user_clone_id": "KLON-USER-B4",
+                  "sub_ebenen_lokal": {
+                    "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
+                    "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
+                    "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
+                  },
+                  "sub_ebenen_global": {
+                    "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
+                    "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
+                    "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
+                  }
+                }
+              ]
+            }
           }
-        },
-        {
-          "index": 1,
-          "name": "BLOCK1(SYSTEM - BOX)",
-          "timestamp": "2026-07-29T11:05:00.000Z",
-          "ID_Hash": "ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9ceac4991a9991a9",
-          "Parent_Hash": "a697e882194fbc7481a697e882194fbc7481a697e882194fbc7481a697e8827481",
-          "Ledger_Gesamt_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
-          "Asset_Merkle_Root": "0e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2d5120980e3e2098",
-          "Global_State_Root": "d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3d67e43a53bf3a53bf3",
-          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
-          "Mining_Difficulty": "486604799",
-          "Nonce": "2573394689",
-          "Execution_Gas_Limit": "5.000 Gas",
-          "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
-          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
-          "sub_ebenen_lokal": {
-            "sub_net": { "status": "ACTIVE", "nonce_pool": "2573394689", "difficulty": "486604799" },
-            "sub_dev": { "gas_consumed": "21000", "terminal_anchor": "TX_SEND" },
-            "sub_app": { "cache_balance": "49.99 BTC + ETH (50.99 EXP)", "ai_status": "MONITORING" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "verified_balance": "50 BTC + ETH (51 EXP)", "immutable": true },
-            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
-            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
-          }
-        },
-        {
-          "index": 2,
-          "name": "BLOCK2(SYSTEM - BOX)",
-          "timestamp": "2026-07-29T11:10:00.000Z",
-          "ID_Hash": "a88af330d383da88af330d383da88af330d383da88af330d383da88af330d383d",
-          "Parent_Hash": "19b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c119b181dd0c1",
-          "Ledger_Gesamt_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
-          "Asset_Merkle_Root": "9b050aa4429c37109b050aa4429c37109b050aa4429c37109b050aa4429c3710",
-          "Global_State_Root": "df704000000df704000000df704000000df704000000df704000000df704000000",
-          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
-          "Mining_Difficulty": "486604799",
-          "Nonce": "1639830024",
-          "Execution_Gas_Limit": "5.000 Gas",
-          "System_Payload": "Geth/v1.0.0/linux-amd64/go1.20",
-          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
-          "sub_ebenen_lokal": {
-            "sub_net": { "status": "ACTIVE", "nonce_pool": "1639830024", "difficulty": "486604799" },
-            "sub_dev": { "gas_consumed": "42000", "terminal_anchor": "TX_RECEIVE" },
-            "sub_app": { "cache_balance": "49.98 BTC + ETH (50.98 EXP)", "ai_status": "MONITORING" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "verified_balance": "100 BTC + ETH (101 EXP)", "immutable": true },
-            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
-            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
-          }
-        },
-        {
-          "index": 3,
-          "name": "BLOCK3(SYSTEM - BOX)",
-          "timestamp": "2026-07-29T11:15:00.000Z",
-          "ID_Hash": "f892abde56c321ef892abde56c321ef892abde56c321ef892abde56c321ef892abde",
-          "Parent_Hash": "936db88122cff76936db88122cff76936db88122cff76936db88122cff76",
-          "Ledger_Gesamt_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
-          "Asset_Merkle_Root": "1a3c2225588ba211a3c2225588ba211a3c2225588ba211a3c2225588ba21",
-          "Global_State_Root": "e32a111111111e32a111111111e32a111111111e32a111111111e32a111111111",
-          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
-          "Mining_Difficulty": "486604820",
-          "Nonce": "9928341120",
-          "Execution_Gas_Limit": "5.000 Gas",
-          "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
-          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
-          "sub_ebenen_lokal": {
-            "sub_net": { "status": "ACTIVE", "nonce_pool": "9928341120", "difficulty": "486604820" },
-            "sub_dev": { "gas_consumed": "15000", "terminal_anchor": "CONTRACT_DEPLOY" },
-            "sub_app": { "cache_balance": "49.95 BTC + ETH (50.95 EXP)", "ai_status": "OPTIMIZING" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "verified_balance": "150 BTC + ETH (151 EXP)", "immutable": true },
-            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "CONTRACT_ROOT" },
-            "sub_app": { "consensus_state": "CONFIRMED", "global_ai_id": "AI-0" }
-          }
-        },
-        {
-          "index": 4,
-          "name": "BLOCK4(SYSTEM - BOX)",
-          "timestamp": "2026-07-29T11:20:00.000Z",
-          "ID_Hash": "44ab229988771dd44ab229988771dd44ab229988771dd44ab229988771dd44ab2",
-          "Parent_Hash": "28da1114488fe3228da1114488fe3228da1114488fe3228da1114488fe32",
-          "Ledger_Gesamt_Hash": "77bc11223399aa1177bc11223399aa1177bc11223399aa1177bc11223399aa11",
-          "Asset_Merkle_Root": "3f4d55667700ab333f4d55667700ab333f4d55667700ab333f4d55667700ab33",
-          "Global_State_Root": "fa8822222222fa8822222222fa8822222222fa8822222222fa8822222222fa8",
-          "Execution_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Output_Receipts_Root": "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-          "Validation_Uncle_Hash": "1dcc4de8dec75d7aab85b567b6ccd41ad312458b9bc866c739d49347",
-          "Mining_Difficulty": "486604850",
-          "Nonce": "5512993841",
-          "Execution_Gas_Limit": "5.000 Gas",
-          "System_Payload": "Geth/v1.0.1/linux-amd64/go1.20",
-          "Native_Genesis_Wert": "50 BTC + ETH (51 EXP)",
-          "sub_ebenen_lokal": {
-            "sub_net": { "status": "ACTIVE", "nonce_pool": "5512993841", "difficulty": "486604850" },
-            "sub_dev": { "gas_consumed": "8000", "terminal_anchor": "STATE_SET" },
-            "sub_app": { "cache_balance": "49.94 BTC + ETH (50.94 EXP)", "ai_status": "IDLE" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "verified_balance": "200 BTC + ETH (201 EXP)", "immutable": true },
-            "sub_dev": { "master_saw_link": "SAW-GENESIS", "permissions": "USER_VALIDATED" },
-            "sub_app": { "consensus_state": "SYNCHRONIZED", "global_ai_id": "AI-0" }
-          }
-        }
-      ]
-    },
-    "REIHE_2_SYSTEM_BLOCKCHAIN_dev": {
-      "Beschreibung": "Web-Terminal Zustand, Dateistrukturen, SAW/PAW Ledger, 24-Wort Seed",
-      "Bloecke": [
-        {
-          "index": 0,
-          "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
-          "currentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
-          "saw": "SAW-MASTER-INIT-9982",
-          "paw": "PAW-ROOT-DEVELOPER",
-          "sub_ebenen_lokal": {
-            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "FREE" },
-            "sub_dev": { "fs_mount": "/repo", "terminal_state": "BOOT_SUCCESS" },
-            "sub_app": { "human_click_verification": "PASSED", "click_id": "0" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "validation_rule": "GENESIS_FREE", "network_mode": "COLD" },
-            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
-            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
-          }
-        },
-        {
-          "index": 1,
-          "parentHash": "sys_hash_0_genesis_00000000000000000000000000000000000000000000",
-          "currentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
-          "saw": "SAW-MASTER-INIT-9982",
-          "paw": "PAW-LOCAL-USER-A1",
-          "sub_ebenen_lokal": {
-            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
-            "sub_dev": { "fs_mount": "/repo/src", "terminal_state": "DIR_CREATED" },
-            "sub_app": { "human_click_verification": "PASSED", "click_id": "14" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
-            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
-            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
-          }
-        },
-        {
-          "index": 2,
-          "parentHash": "sys_hash_1_active_000000000000000000000000000000000000000000",
-          "currentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
-          "saw": "SAW-MASTER-INIT-9982",
-          "paw": "PAW-LOCAL-USER-A1",
-          "sub_ebenen_lokal": {
-            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
-            "sub_dev": { "fs_mount": "/repo/src/index.html", "terminal_state": "FILE_WRITTEN" },
-            "sub_app": { "human_click_verification": "PASSED", "click_id": "28" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
-            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
-            "sub_app": { "integrity_loop": "SECURE", "code_signature": "MATCHED" }
-          }
-        },
-        {
-          "index": 3,
-          "parentHash": "sys_hash_2_active_000000000000000000000000000000000000000000",
-          "currentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
-          "saw": "SAW-MASTER-INIT-9982",
-          "paw": "PAW-LOCAL-USER-B4",
-          "sub_ebenen_lokal": {
-            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
-            "sub_dev": { "fs_mount": "/repo/assets", "terminal_state": "DIR_CREATED" },
-            "sub_app": { "human_click_verification": "PASSED", "click_id": "45" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "COLD" },
-            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
-            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
-          }
-        },
-        {
-          "index": 4,
-          "parentHash": "sys_hash_3_active_000000000000000000000000000000000000000000",
-          "currentHash": "sys_hash_4_active_000000000000000000000000000000000000000000",
-          "saw": "SAW-MASTER-INIT-9982",
-          "paw": "PAW-LOCAL-USER-B4",
-          "sub_ebenen_lokal": {
-            "sub_net": { "linked_tx_fee": "BTC + ETH (2 EXP)", "gas_limit": "5000" },
-            "sub_dev": { "fs_mount": "/repo/assets/style.css", "terminal_state": "FILE_WRITTEN" },
-            "sub_app": { "human_click_verification": "PASSED", "click_id": "62" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "validation_rule": "STANDARD_FEE", "network_mode": "HOT" },
-            "sub_dev": { "roster_admin": "DEVELOPER_0", "git_branch": "main" },
-            "sub_app": { "integrity_loop": "SECURE", "code_signature": "VERIFIED" }
-          }
-        }
-      ]
-    },
-    "REIHE_3_AI_BLOCKCHAIN_app": {
-      "Beschreibung": "Silent Klon, Fusions-Schicht, Konsens-Validierung von PRAIAI einsehbar",
-      "Bloecke": [
-        {
-          "index": 0,
-          "parentHash": "0000000000000000000000000000000000000000000000000000000000000000",
-          "currentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
-          "silent_user_clone_id": "KLON-MASTER-0",
-          "sub_ebenen_lokal": {
-            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
-            "sub_dev": { "cycle_optimization": "LEVEL_1", "git_sync_ready": true },
-            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
-            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
-            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
-          }
-        },
-        {
-          "index": 1,
-          "parentHash": "ai_hash_0_genesis_000000000000000000000000000000000000000000000",
-          "currentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
-          "silent_user_clone_id": "KLON-USER-A1",
-          "sub_ebenen_lokal": {
-            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
-            "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": true },
-            "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
-            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
-            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
-          }
-        },
-        {
-          "index": 2,
-          "parentHash": "ai_hash_1_active_00000000000000000000000000000000000000000000",
-          "currentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
-          "silent_user_clone_id": "KLON-USER-A1",
-          "sub_ebenen_lokal": {
-            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
-            "sub_dev": { "cycle_optimization": "LEVEL_2", "git_sync_ready": false },
-            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
-            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
-            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
-          }
-        },
-        {
-          "index": 3,
-          "parentHash": "ai_hash_2_active_00000000000000000000000000000000000000000000",
-          "currentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
-          "silent_user_clone_id": "KLON-USER-B4",
-          "sub_ebenen_lokal": {
-            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "SAFE" },
-            "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
-            "sub_app": { "silent_state": "SYNCHRONIZED", "input_stream": "STABLE" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "autonomous_market_sync": "IDLE", "liquidity_check": "BTC + ETH (2 EXP)" },
-            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
-            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
-          }
-        },
-        {
-          "index": 4,
-          "parentHash": "ai_hash_3_active_00000000000000000000000000000000000000000000",
-          "currentHash": "ai_hash_4_active_00000000000000000000000000000000000000000000",
-          "silent_user_clone_id": "KLON-USER-B4",
-          "sub_ebenen_lokal": {
-            "sub_net": { "user_behavior_metric": "BTC + ETH (2 EXP)", "backup_state": "PENDING" },
-            "sub_dev": { "cycle_optimization": "LEVEL_3", "git_sync_ready": true },
-            "sub_app": { "silent_state": "AWAITING_SYNC", "input_stream": "STABLE" }
-          },
-          "sub_ebenen_global": {
-            "sub_net": { "autonomous_market_sync": "RUNNING", "liquidity_check": "BTC + ETH (2 EXP)" },
-            "sub_dev": { "global_integrity": "OPERATIONAL", "saw_roster_lock": true },
-            "sub_app": { "praiai_matrix_link": "CONNECTED", "fusion_index": "BTC + ETH (2 EXP)" }
-          }
-        }
-      ]
-    }
-  }
-];
+        ];
 
-// Init-Logik: Verankerung der fusionierten Matrix im lokalen Speicher
-if(!localStorage.getItem('g_ledger') || JSON.parse(localStorage.getItem('g_ledger')).length === 0) {
-    localStorage.setItem('g_ledger', JSON.stringify(genesisMatrixData));
-    localStorage.setItem('l_ledger', JSON.stringify(genesisMatrixData));
-}
+        // Init-Logik: Verankerung der fusionierten Matrix im lokalen Speicher
+        if(!localStorage.getItem('g_ledger') || JSON.parse(localStorage.getItem('g_ledger')).length === 0) {
+            localStorage.setItem('g_ledger', JSON.stringify(genesisMatrixData));
+            localStorage.setItem('l_ledger', JSON.stringify(genesisMatrixData));
+        }
 
-// Terminal-Ausgabe zur Verifizierung beim Laden
-window.addEventListener('DOMContentLoaded', () => {
-    const terminal = document.getElementById('terminal');
-    const storedLedger = JSON.parse(localStorage.getItem('g_ledger'));
-    if(storedLedger && storedLedger.length > 0) {
-        terminal.innerHTML += `<br>> [SUCCESS] Matrix erfolgreich mit fusionierten BTC, ETH & EXP-Summen verankert.`;
-        terminal.innerHTML += `<br>> [STATUS] Text-Matrix Übersetzungen für Coining & Ebenen bereit.`;
-    }
-});
+        // Terminal-Ausgabe zur Verifizierung beim Laden
+        window.addEventListener('DOMContentLoaded', () => {
+            const terminal = document.getElementById('terminal');
+            const storedLedger = JSON.parse(localStorage.getItem('g_ledger'));
+            if(storedLedger && storedLedger.length > 0) {
+                terminal.innerHTML += `<br>> [SUCCESS] Matrix erfolgreich mit fusionierten BTC, ETH & EXP-Summen verankert.`;
+                terminal.innerHTML += `<br>> [STATUS] Text-Matrix Übersetzungen für Coining & Ebenen bereit.`;
+            }
+        });
     </script>
 
     <!-- PYSCRIPT KONFIGURATION INKLUSIVE CRYPTO-ENGINE UND BIP39 -->
-<script type="py" src="app_silent.py" config='{
-    "fetch": [
-        {"files": ["net_krypto.py", "dev_system.py", "crypto_engine.py", "bip39_core.py"]}
-    ]
-}'></script>
+    <script type="py" src="app_silent.py" config='{
+        "fetch": [
+            {"files": ["net_krypto.py", "dev_system.py", "crypto_engine.py", "bip39_core.py"]}
+        ]
+    }'></script>
 </body>
 </html>

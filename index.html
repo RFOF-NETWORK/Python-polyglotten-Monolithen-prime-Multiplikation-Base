@@ -48,14 +48,20 @@
         <!-- ================= 2. HAUPT-TERMINAL & DASHBOARD ================= -->
         <div id="mainView" class="terminal-main">
             <div class="top-nav">
-                <span id="userDisplay" style="color: #ffcc00; display: none;">User: Admin (RFOF-NETWORK)</span>
+          <!-- Fester HTML-Bereich für alle möglichen Rollen (initial auf unsichtbar gesetzt) -->
+               <div id="roleDisplayContainer">
+                   <span id="userDisplayAdmin" style="color: #ff3333; display: none;">User: Admin (RFOF-NETWORK)</span>
+                   <span id="userDisplayDev" style="color: #00ffff; display: none;">User: Developer</span>
+                   <span id="userDisplayMember" style="color: #ffcc00; display: none;">User: Member</span>
+                </div>
                 <div style="display: flex; gap: 8px; align-items: center;">
                     <a id="ttcNavButton" href="../net/index.html" class="nav-btn" style="text-decoration: none; border-color: #00ffff; color: #00ffff; display: inline-block;">[ TTC MATRIX ]</a>
-                    <button class="nav-btn" onclick="openSettings()">Settings</button>
-                    <button class="nav-btn" onclick="performLogout()" style="border-color: #ff4444; color: #ff4444;">Logout</button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button onclick="openSettings()" id="settingsBtn" style="display: none;">Settings</button>
+                    <button onclick="handleLogout()" id="logoutBtn" style="display: none;">Logout</button>
                 </div>
+              </div>
             </div>
-
             <header class="terminal-header">
                 <div class="status-dot"></div>
                 <h1 id="logoExplorerTitle">RFOF-NETWORK // SYSTEM BASIS 42</h1>
@@ -196,107 +202,130 @@
                 if (p) localStorage.setItem('rfof_pass', p);
                 
                 // Dynamische Rollenzuweisung basierend auf dem ersten Nutzer (RFOF-NETWORK ist Pflicht-Admin)
-                if (u.toLowerCase() === 'rfof-network' || u.toLowerCase() === 'admin') {
-                    userRole = "Admin (RFOF-NETWORK)";
-                } else if (u.toLowerCase().includes('dev')) {
-                    userRole = "Developer";
-                } else {
-                    userRole = "Member";
-                }
-                localStorage.setItem('rfof_user_role', userRole);
-            }
-            localStorage.setItem('rfof_logged_in', 'true');
+        document.getElementById('settingsBtn').style.display = 'inline-block';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
 
-            document.getElementById('loginView').classList.remove('active');
-            document.getElementById('mainView').classList.add('active');
-            
-            const activeUser = localStorage.getItem('rfof_user') || 'Admin';
-            updateTopNavAuthStatus(true, userRole, activeUser);
+        // Rollen-Abfrage für das feste HTML
+        document.getElementById('userDisplayAdmin').style.display = (userRole.includes('Admin')) ? 'inline' : 'none';
+        document.getElementById('userDisplayDev').style.display = (userRole.includes('Developer')) ? 'inline' : 'none';
+        document.getElementById('userDisplayMember').style.display = (userRole.includes('Member')) ? 'inline' : 'none';
+
+        if (u.toLowerCase() === 'rfof-network' || u.toLowerCase() === 'admin') {
+            userRole = "Admin (RFOF-NETWORK)";
+        } else if (u.toLowerCase().includes('dev')) {
+            userRole = "Developer";
+        } else {
+            userRole = "Member";
         }
+        localStorage.setItem('rfof_user_role', userRole);
+        localStorage.setItem('rfof_logged_in', 'true');
 
-        function performLogout() {
-            localStorage.removeItem('rfof_logged_in');
-            document.getElementById('mainView').classList.remove('active');
-            document.getElementById('loginView').classList.add('active');
-            updateTopNavAuthStatus(false);
-        }
+        document.getElementById('loginView').classList.remove('active');
+        document.getElementById('mainView').classList.add('active');
+        
+        const activeUser = localStorage.getItem('rfof_user') || 'Admin';
+        updateTopNavAuthStatus(true, userRole, activeUser);
+    }
 
-        function openSettings() {
-            document.getElementById('mainView').classList.remove('active');
-            document.getElementById('settingsView').classList.add('active');
-            
-            document.getElementById('settingsUser').value = localStorage.getItem('rfof_user') || '';
-            document.getElementById('settingsPass').value = localStorage.getItem('rfof_pass') || '';
-            document.getElementById('setLogoTitle').value = localStorage.getItem('rfof_logo') || 'RFOF-NETWORK // SYSTEM BASIS 42';
-        }
+    function performLogout() {
+        localStorage.removeItem('rfof_logged_in');
+        document.getElementById('mainView').classList.remove('active');
+        document.getElementById('loginView').classList.add('active');
+        updateTopNavAuthStatus(false);
+    }
 
-        function closeSettings() {
-            document.getElementById('settingsView').classList.remove('active');
-            document.getElementById('mainView').classList.add('active');
-        }
+    function openSettings() {
+        document.getElementById('mainView').classList.remove('active');
+        document.getElementById('settingsView').classList.add('active');
+        
+        document.getElementById('settingsUser').value = localStorage.getItem('rfof_user') || '';
+        document.getElementById('settingsPass').value = localStorage.getItem('rfof_pass') || '';
+        document.getElementById('setLogoTitle').value = localStorage.getItem('rfof_logo') || 'RFOF-NETWORK // SYSTEM BASIS 42';
+    }
 
-        function updateCredentials() {
-            const newU = document.getElementById('settingsUser').value.trim();
-            const newP = document.getElementById('settingsPass').value.trim();
-            const newL = document.getElementById('setLogoTitle').value.trim();
+    function closeSettings() {
+        document.getElementById('settingsView').classList.remove('active');
+        document.getElementById('mainView').classList.add('active');
+    }
 
-            if (newU) {
-                localStorage.setItem('rfof_user', newU);
-                if (newU.toLowerCase() === 'rfof-network' || newU.toLowerCase() === 'admin') {
-                    userRole = "Admin (RFOF-NETWORK)";
-                } else if (newU.toLowerCase().includes('dev')) {
-                    userRole = "Developer";
-                } else {
-                    userRole = "Member";
-                }
-                localStorage.setItem('rfof_user_role', userRole);
-                updateTopNavAuthStatus(true, userRole, newU);
-            }
-            if (newP) localStorage.setItem('rfof_pass', newP);
-            if (newL) {
-                localStorage.setItem('rfof_logo', newL);
-                document.getElementById('logoExplorerTitle').innerText = newL;
-            }
+    function updateCredentials() {
+        const newU = document.getElementById('settingsUser').value.trim();
+        const newP = document.getElementById('settingsPass').value.trim();
+        const newL = document.getElementById('setLogoTitle').value.trim();
 
-            alert('Credentials & Settings erfolgreich synchronisiert!');
-        }
-
-        function unlockSeeds() {
-            const pass = document.getElementById('unlockPassInput').value;
-            const currentPass = localStorage.getItem('rfof_pass') || '';
-            if (pass === currentPass || pass === 'admin') {
-                document.getElementById('seedsContainer').style.display = 'block';
-                renderSeedPairs();
+        if (newU) {
+            localStorage.setItem('rfof_user', newU);
+            if (newU.toLowerCase() === 'rfof-network' || newU.toLowerCase() === 'admin') {
+                userRole = "Admin (RFOF-NETWORK)";
+            } else if (newU.toLowerCase().includes('dev')) {
+                userRole = "Developer";
             } else {
-                alert('Falsches Passwort!');
+                userRole = "Member";
             }
+            localStorage.setItem('rfof_user_role', userRole);
+            updateTopNavAuthStatus(true, userRole, newU);
+        }
+        if (newP) localStorage.setItem('rfof_pass', newP);
+        if (newL) {
+            localStorage.setItem('rfof_logo', newL);
+            document.getElementById('logoExplorerTitle').innerText = newL;
         }
 
-        function generateNewSeedPair() {
-            let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
-            const index = seeds.length;
-            const dummy12 = "alpha brava charlie delta echo foxtrot golf hotel india juliett kilo lima";
-            const dummy24 = "alpha brava charlie delta echo foxtrot golf hotel india juliett kilo lima mike november oscar papa quebec romeo sierra tango uniform victor whiskey xray";
-            seeds.push({ index: index, v12: dummy12, v24: dummy24 });
-            localStorage.setItem('ttc_seeds', JSON.stringify(seeds));
+        alert('Credentials & Settings erfolgreich synchronisiert!');
+    }
+
+    function unlockSeeds() {
+        const pass = document.getElementById('unlockPassInput').value;
+        const currentPass = localStorage.getItem('rfof_pass') || '';
+        if (pass === currentPass || pass === 'admin') {
+            document.getElementById('seedsContainer').style.display = 'block';
             renderSeedPairs();
+        } else {
+            alert('Falsches Passwort!');
         }
+    }
 
-        function renderSeedPairs() {
-            let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
-            if(seeds.length === 0) {
-                seeds = [{ index: 0, v12: "genesis alpha beta gamma delta epsilon zeta eta theta iota kappa lambda", v24: "genesis alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi" }];
-                localStorage.setItem('ttc_seeds', JSON.stringify(seeds));
-            }
-            const container = document.getElementById('horizontalSeedList');
-            container.innerHTML = '';
-            seeds.forEach(s => {
-                const card = document.createElement('div');
-                card.className = 'seed-card';
-                card.innerHTML = `<strong>Index #${s.index}</strong><br><br><span style="color:#00ffff;">12-Wort (V1):</span><br>${s.v12}<br><br><span style="color:#00ff66;">24-Wort (V2):</span><br>${s.v24}`;
-                container.appendChild(card);
-            });
+    function generateNewSeedPair() {
+        let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
+        const index = seeds.length;
+        
+        const array12 = new Uint32Array(12);
+        const array24 = new Uint32Array(24);
+        window.crypto.getRandomValues(array12);
+        window.crypto.getRandomValues(array24);
+        
+        const secure12 = Array.from(array12, dec => ('0' + dec.toString(16)).substr(-2)).join('');
+        const secure24 = Array.from(array24, dec => ('0' + dec.toString(16)).substr(-2)).join('');
+        
+        seeds.push({ index: index, v12: secure12, v24: secure24 });
+        localStorage.setItem('ttc_seeds', JSON.stringify(seeds));
+        renderSeedPairs();
+    }
+
+    function renderSeedPairs() {
+        let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
+        if(seeds.length === 0) {
+            const init12 = new Uint32Array(12);
+            const init24 = new Uint32Array(24);
+            window.crypto.getRandomValues(init12);
+            window.crypto.getRandomValues(init24);
+            
+            seeds = [{ 
+                index: 0, 
+                v12: Array.from(init12, dec => ('0' + dec.toString(16)).substr(-2)).join(''), 
+                v24: Array.from(init24, dec => ('0' + dec.toString(16)).substr(-2)).join('') 
+            }];
+            localStorage.setItem('ttc_seeds', JSON.stringify(seeds));
         }
+        const container = document.getElementById('horizontalSeedList');
+        container.innerHTML = '';
+        seeds.forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'seed-card';
+            card.innerHTML = `<strong>Index #${s.index}</strong><br><br><span style="color:#00ffff;">12-Wort Entropie (V1):</span><br>${s.v12}<br><br><span style="color:#00ff66;">24-Wort Entropie (V2):</span><br>${s.v24}`;
+            container.appendChild(card);
+        });
+    }
 
         // DREIDIMENSIONALE MATRIX (BLÖCKE 0-4) MIT VOLLSTÄNDIG AUSGEFÜLLTEN HASHES UND FUSIONIERTER EXP-SUMME (BTC + ETH)
         const genesisMatrixData = [

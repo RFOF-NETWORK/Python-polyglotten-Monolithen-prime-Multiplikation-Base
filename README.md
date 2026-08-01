@@ -10,6 +10,9 @@ Python-polyglotten-Monolithen-prime-Multiplikation-Base/
 └── src/
     ├── crypto_engine.py        # Kryptografische Engine für Wallet- und Transaktionslogik
     ├── bip39_core.py           # Deterministisches Seed- und Schlüssel-Management
-    └── codeql.py               # E2E-Brücke direkt im src/-Ordner
+    ├── codeql.V1.py               # E2E-Brücke direkt im src/-Ordner
+    ├── pzqqet_master_node.py 
+    ├── codeql.v2.py
+    └── codeql.v3.py 
 
 ```

@@ -155,13 +155,30 @@
             const savedLogo = localStorage.getItem('rfof_logo');
             
             if (savedLogo) {
-                document.getElementById('logoExplorerTitle').innerText = savedLogo;
+                const logoTitle = document.getElementById('logoExplorerTitle');
+                if (logoTitle) logoTitle.innerText = savedLogo;
             }
 
             // Authentifizierungsprüfung beim Laden
             if (localStorage.getItem('rfof_logged_in') === 'true') {
-                document.getElementById('loginView').classList.remove('active');
-                document.getElementById('mainView').classList.add('active');
+                const loginView = document.getElementById('loginView');
+                const mainView = document.getElementById('mainView');
+                if (loginView) loginView.classList.remove('active');
+                if (mainView) mainView.classList.add('active');
+                
+                // Rollen-Sichtbarkeit beim automatischen Wiederherstellen setzen
+                const adminDisplay = document.getElementById('userDisplayAdmin');
+                const devDisplay = document.getElementById('userDisplayDev');
+                const memberDisplay = document.getElementById('userDisplayMember');
+                const settingsBtn = document.getElementById('settingsBtn');
+                const logoutBtn = document.getElementById('logoutBtn');
+
+                if (adminDisplay) adminDisplay.style.display = (userRole.includes('Admin')) ? 'inline' : 'none';
+                if (devDisplay) devDisplay.style.display = (userRole.includes('Developer')) ? 'inline' : 'none';
+                if (memberDisplay) memberDisplay.style.display = (userRole.includes('Member')) ? 'inline' : 'none';
+                if (settingsBtn) settingsBtn.style.display = 'inline-block';
+                if (logoutBtn) logoutBtn.style.display = 'inline-block';
+
                 updateTopNavAuthStatus(true, userRole, savedUser || 'Admin');
             } else {
                 updateTopNavAuthStatus(false);

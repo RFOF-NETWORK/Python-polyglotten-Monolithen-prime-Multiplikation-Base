@@ -71,17 +71,17 @@
                 <!-- LOKALER LEDGER -->
                 <section class="ledger-box local">
                     <h2>LOKALER LEDGER (Handy-Speicher)</h2>
-                    <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto-Blockchain (SAW)<span class="badge">Aktiv</span></div>
-                    <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System-Blockchain (PAW) <span class="badge">Persistent</span></div>
-                    <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (AAW)<span class="badge animated">Silent Klon</span></div>
+                    <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto-Blockchain (SAW)<span id="localNetBadge" class="badge" style="background: #ff3333; color: #fff;">Offline</span></div>
+                    <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System-Blockchain (PAW) <span class="badge" style="background: #00ffff; color: #000;">Persistent</span></div>
+                    <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (AAW)<span class="badge animated" style="border: 1px solid #ff00ff; color: #ff00ff;">Silent Klon</span></div>
                 </section>
 
                 <!-- GLOBALER LEDGER -->
                 <section class="ledger-box global">
                     <h2>GLOBALER LEDGER (Roster-Zustand)</h2>
-                    <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto (Genesis PAW)</div>
-                    <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System (Global SAW)</div>
-                    <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (Fusioniert AAW)</div>
+                    <div class="reihe net"><strong>Reihe 1 (.net):</strong> Krypto (Genesis PAW) <span class="badge" style="float: right; color: #00ffff; border: 1px solid #00ffff; font-size: 0.65rem; padding: 1px 5px;">Sync [OK]</span></div>
+                    <div class="reihe dev"><strong>Reihe 2 (.dev):</strong> System (Global SAW) <span class="badge" style="float: right; color: #00ff66; border: 1px solid #00ff66; font-size: 0.65rem; padding: 1px 5px;">Verified [OK]</span></div>
+                    <div class="reihe app"><strong>Reihe 3 (.app):</strong> AI-Blockchain (Fusioniert AAW) <span class="badge" style="float: right; color: #ffcc00; border: 1px solid #ffcc00; font-size: 0.65rem; padding: 1px 5px;">Active [OK]</span></div>
                 </section>
             </main>
 
@@ -229,6 +229,14 @@
             localStorage.setItem('rfof_user_role', userRole);
             localStorage.setItem('rfof_logged_in', 'true');
 
+            // Dynamischen Aktiv-Status für Reihe 1 (.net) setzen
+            const netBadge = document.getElementById('localNetBadge');
+            if (netBadge) {
+                netBadge.innerText = "Aktiv";
+                netBadge.style.background = "#00ff66";
+                netBadge.style.color = "#000";
+            }
+
             const loginView = document.getElementById('loginView');
             const mainView = document.getElementById('mainView');
             if (loginView) loginView.classList.remove('active');
@@ -242,6 +250,15 @@
 
         function performLogout() {
             localStorage.removeItem('rfof_logged_in');
+            
+            // Status zurücksetzen
+            const netBadge = document.getElementById('localNetBadge');
+            if (netBadge) {
+                netBadge.innerText = "Offline";
+                netBadge.style.background = "#ff3333";
+                netBadge.style.color = "#fff";
+            }
+
             const mainView = document.getElementById('mainView');
             const loginView = document.getElementById('loginView');
             if (mainView) mainView.classList.remove('active');

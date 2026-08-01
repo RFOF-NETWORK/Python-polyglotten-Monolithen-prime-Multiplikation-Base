@@ -337,7 +337,7 @@
             renderSeedPairs();
         }
 
-        function renderSeedPairs() {
+function renderSeedPairs() {
             let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
             if(seeds.length === 0) {
                 const init12 = new Uint32Array(16);
@@ -362,6 +362,8 @@
                     container.appendChild(card);
                 });
             }
+        }
+
         // DREIDIMENSIONALE MATRIX (BLÖCKE 0-4) MIT VOLLSTÄNDIG AUSGEFÜLLTEN HASHES UND FUSIONIERTER EXP-SUMME (BTC + ETH)
         const genesisMatrixData = [
           {
@@ -698,7 +700,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             const terminal = document.getElementById('terminal');
             const storedLedger = JSON.parse(localStorage.getItem('g_ledger'));
-            if(storedLedger && storedLedger.length > 0) {
+            if(storedLedger && storedLedger.length > 0 && terminal) {
                 terminal.innerHTML += `<br>> [SUCCESS] Matrix erfolgreich mit fusionierten BTC, ETH & EXP-Summen verankert.`;
                 terminal.innerHTML += `<br>> [STATUS] Text-Matrix Übersetzungen für Coining & Ebenen bereit.`;
             }

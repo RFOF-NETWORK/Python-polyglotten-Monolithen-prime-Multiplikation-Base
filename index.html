@@ -337,7 +337,7 @@
             renderSeedPairs();
         }
 
-function renderSeedPairs() {
+        function renderSeedPairs() {
             let seeds = JSON.parse(localStorage.getItem('ttc_seeds') || '[]');
             if(seeds.length === 0) {
                 const init12 = new Uint32Array(16);
